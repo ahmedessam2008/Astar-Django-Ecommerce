@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %} | Product details{% endblock %}
+{% block content %}
+<!-- Home -->
+
+<div class="home">
+  <div
+    class="parallax_background parallax-window"
+    data-parallax="scroll"
+    data-image-src="{% static 'images/product_background.jpg' %}"
+    data-speed="0.8"
+  ></div>
+  <div class="home_container">
+    <div class="home_content">
+      <div class="home_title">Shop</div>
+      <div class="breadcrumbs">
+        <ul class="d-flex flex-row align-items-center justify-content-start">
+          <li><a href="{% url 'index' %}">Home</a></li>
+          {% comment %} <li><a href="{% url 'single_product' %}">Woman</a></li>
+          <li><a href="{% url 'single_product' %}">Accessories</a></li> {% endcomment %}
+          <li>Shoulder Bag</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Products -->
+
+<div class="product">
+  <!-- Product Content -->
+  <div class="section_container">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="product_content_container d-flex flex-lg-row flex-column align-items-start justify-content-start">
+            <div class="product_content order-lg-1 order-2">
+              <div class="product_content_inner">
+
+                <div class="product_image_row d-flex flex-md-row flex-column align-items-md-end align-items-start justify-content-start">
+                  <div class="product_image_1 product_image">
+                    {% if product_id.image1 %}
+                    <a href="{{ product_id.image1.url }}"><img src="{{ product_id.image1.url }}" alt="{{ product_id.title }}" /></a>
+                    {% else %}
+                    <img src="{% static 'images/default.jpg' %}" alt="{{ product_id.title }}" />
+                    {% endif %}
+                  </div>
+
+                  <div class="product_image_2 product_image">
+                    {% if product_id.image2 %}
+                    <a href="{{ product_id.image2.url }}"><img src="{{ product_id.image2.url }}" alt="{{ product_id.title }}" /></a>
+                  </div>
+                  {% else %}
+                  <div class="product_image_2 product_image">
+                    <img src="{% static 'images/default.jpg' %}" alt="{{ product_id.title }}" />
+                  </div>
+                  {% endif %}
+                </div>
+                <div class="product_image_row">
+                  {% if product_id.image3 %}
+                  <div class="product_image_3 product_image">
+                    <a href="{{ product_id.image3.url }}"><img src="{{ product_id.image3.url }}" alt="{{ product_id.title }}" /></a>
+                  </div>
+                  {% else %}
+                  <div class="product_image_3 product_image">
+                    <img src="{% static 'images/default.jpg' %}" alt="{{ product_id.title }}" />
+                  </div>
+                  {% endif %}
+                </div>
+
+                <div class="product_image_row d-flex flex-md-row flex-column align-items-start justify-content-start">
+                  {% if product_id.image4 %}
+                  <div class="product_image_4 product_image">
+                    <a href="{{ product_id.image4.url }}"> <img src="{{ product_id.image4.url }}" alt="{{ product_id.title }}" /></a>
+                  </div>
+                  {% else %}
+                  <div class="product_image_4 product_image">
+                    <img src="{% static 'images/default.jpg' %}" alt="{{ product_id.title }}" />
+                  </div>
+                  {% endif %} {% if product_id.image5 %}
+                  <div class="product_image_5 product_image">
+                    <a href="{{ product_id.image5.url }}"> <img src="{{ product_id.image5.url }}" alt="{{ product_id.title }}" /></a>
+                  </div>
+                  {% else %}
+                  <div class="product_image_5 product_image">
+                    <img src="{% static 'images/default.jpg' %}" alt="{{ product_id.title }}" />
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="product_sidebar order-lg-2 order-1">
+
+              <form method='POST' action="{% url 'products' %}" id="product_form" class="product_form">
+                {% csrf_token %}
+                <div class="product_name">{{ product_id.title }}</div>
+                <div class="product_price">${{ product_id.price }}</div>
+                <div class="product_color">Color: <span>{{ product_id.colors }}</span></div>
+                <div class="product_size">
+                  <div class="product_size_title">Size: <span>{{ product_id.sizes }}</span></div>
+                  <div class="product_size_list">
+                    <ul>
+                      {% comment %} {% for size in sizes %}
+                      <li class="size_available">
+                        <input type="radio" id="radio_{{size.id}}" name="product_radio" class="regular_radio radio_{{size.id}}" />
+                        <label for="radio_{{size.id}}">{{ size.size }}</label>
+                      </li>
+                      {% endfor %} {% endcomment %}
+                      <li class="size_available">
+                        <input type="radio" id="radio_1" name="product_radio" class="regular_radio radio_1" />
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <button type='submit' class="cart_button trans_200">add to cart</button>
+                <div class="similar_products_button trans_200"><a href="{% url 'products' %}">see similar products</a></div>
+              </form>
+              <div class="product_links">
+                <ul class="text-center">
+                  <li><a href="#">See guide</a></li>
+                  <li><a href="#">Shipping</a></li>
+                  <li><a href="#">Returns</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
