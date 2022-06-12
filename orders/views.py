@@ -103,52 +103,64 @@ def payment(request):
   expired = None
   security_code = None
   is_added = None
-  if request.user.is_authenticated and not request.user.is_anonymous and request.method == "POST" and "paymentbtn" in request.POST and 'adress1' in request.POST and 'mobile' in request.POST and 'payment' in request.POST:
+  if request.user.is_authenticated and not request.user.is_anonymous:
     
-    adress1 = request.POST['adress1']
-    mobile = request.POST['mobile']
-    payment = request.POST['payment']
-    card_number = request.POST["card_number"]
-    expired = request.POST["expired"]
-    security_code = request.POST["security_code"]
-    
-    if Order.objects.all().filter(user=request.user,complated=False):
-      order = Order.objects.get(user=request.user, complated=False)
-    
-    if adress1 and mobile and payment == "paypal":
-      payment = Payment(order=order, shipping_adress=adress1, shipping_mobile=mobile, pyment_method=payment)
-      payment.save()
-      order.complated = True
-      order.save()
-      messages.success(request, "paypal Ship Complated ")
+    if request.method == "POST" and "paymentbtn" in request.POST and 'adress1' in request.POST and 'mobile' in request.POST and 'payment' in request.POST:
+      adress1 = request.POST['adress1']
+      mobile = request.POST['mobile']
+      payment = request.POST['payment']
+      card_number = request.POST["card_number"]
+      expired = request.POST["expired"]
+      security_code = request.POST["security_code"]
       
-    elif adress1 and mobile and payment == "cod":
-      messages.success(request, "Cash on Delivery Ship ")
+      if Order.objects.all().filter(user=request.user,complated=False):
+        order = Order.objects.get(user=request.user, complated=False)
       
-    elif adress1 and mobile and payment == "credit" and 'card_number' in request.POST and 'expired' in request.POST and 'security_code' in request.POST:
-      
-      if card_number and expired and security_code:
-        messages.success(request, "Credit Card Ship ")
-      else:
-        messages.success(request, "Credit Card Details Empty ")
+      if adress1 and mobile and payment == "paypal":
+        payment = Payment(order=order, shipping_adress=adress1, shipping_mobile=mobile, pyment_method=payment)
+        payment.save()
+        order.complated = True
+        order.save()
+        messages.success(request, "paypal Ship Complated ")
         
-    elif adress1 and mobile and payment == "bank":
-      messages.success(request, "Direct Bank Transfer Ship ")
+      elif adress1 and mobile and payment == "cod":
+        payment = Payment(order=order, shipping_adress=adress1, shipping_mobile=mobile, pyment_method=payment)
+        payment.save()
+        order.complated = True
+        order.save()
+        messages.success(request, "Cash on Delivery Ship ")
+        
+      elif adress1 and mobile and payment == "credit" and 'card_number' in request.POST and 'expired' in request.POST and 'security_code' in request.POST:
+        
+        if card_number and expired and security_code:
+          payment = Payment(order=order, shipping_adress=adress1, shipping_mobile=mobile, pyment_method=payment)
+          payment.save()
+          order.complated = True
+          order.save()
+          messages.success(request, "Credit Card Ship ")
+        else:
+          messages.success(request, "Credit Card Details Empty ")
+          
+      elif adress1 and mobile and payment == "bank":
+        payment = Payment(order=order, shipping_adress=adress1, shipping_mobile=mobile, pyment_method=payment)
+        payment.save()
+        order.complated = True
+        order.save()
+        messages.success(request, "Direct Bank Transfer Ship ")
 
-    else :
-      messages.error(request, "empty Feilds")
+      else :
+        messages.error(request, "empty Feilds")
   else:
-    messages.error(request, "You Are Not Loggin ")
+    messages.error(request, "You Are Not Loggin from payment view")
   return render(request, 'orders/checkout.html', context)
 
 def show_orders(request):
   context = {}
   all_orders = None
   if request.user.is_authenticated and not request.user.is_anonymous:
-    all_orders = Order.objects.all()
-    all_orders.filter(user=request.user)
+    all_orders = Order.objects.all().filter(user=request.user)
     for x in all_orders:
-      order = Order.objects.get(id=x.id)
+      order = Order.objects.get(id=x.id, user=request.user)
       orderdetails = OrderItems.objects.all().filter(order=order)
       total = 0
       for sub in orderdetails:

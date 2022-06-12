@@ -83,6 +83,7 @@
 										
 										<div>===================</div>
 										<!-- Card Details -->
+										
 										<div>
 											<label for="card_number">Card Number</label>
 											<input name="card_number" type="number" id="card_number" class="checkout_input" placeholder="0000 0000 0000 0000"/>
@@ -118,4 +119,5 @@
 {% else %}
 <h2 class="alert alert-warning text-center">No Order Now , <a href="{% url 'signin' %}">Shopping...</a></h2>
 {% endif %} 
+
 {% endblock %}
