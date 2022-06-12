@@ -152,13 +152,13 @@
 									{% endif %}
                 </div>
                 <div class="product_content text-center">
-                  <div class="product_title"><a href="{% url 'single_product' product.id %}">{{ product.title }}t</a></div>
+                  <div class="product_title"><a href="{% url 'details' product.id %}">{{ product.title }}</a></div>
                   <div class="product_price">${{ product.price }}
 										{% if product.rrp %}
 										<span>RRP {{ product.rrp }}</span>
 										{% endif %}
 									</div>
-                  <div class="product_button ml-auto mr-auto trans_200"><a href="#">add to cart</a></div>
+                  <div class="product_button ml-auto mr-auto trans_200"><a href="{% url 'details' product.id %}">add to cart</a></div>
                 </div>
               </div>
             </div>

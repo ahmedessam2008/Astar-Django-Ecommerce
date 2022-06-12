@@ -19,12 +19,12 @@
     <link rel="stylesheet" type="text/css" href="{% static 'styles/profile.css' %}" />
     {% endif %}
     
-    {% if 'checkout' in request.path %}
+    {% if 'payment' in request.path %}
     <link rel="stylesheet" type="text/css" href="{% static 'styles/checkout.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/checkout_responsive.css' %}">
     {% endif %}
 
-    {% if 'cart' in request.path %}
+    {% if 'cart' in request.path or 'show_orders' in request.path %}
     <link rel="stylesheet" type="text/css" href="{% static 'styles/cart.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/cart_responsive.css' %}">
     {% endif %}
@@ -32,12 +32,6 @@
     {% if 'blog' in request.path %}
     <link rel="stylesheet" type="text/css" href="{% static 'styles/blog.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/blog_responsive.css' %}">
-    {% endif %}
-
-    {% comment %} {% if request.path|add:product_id == product %} {% endcomment %}
-    {% if 'single_product' in  request.path %}
-    <link rel="stylesheet" type="text/css" href="{% static 'styles/single_product.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'styles/single_product_responsive.css' %}">
     {% endif %}
 
     {% if 'search' in  request.path %}
@@ -52,6 +46,10 @@
     <link rel="stylesheet" type="text/css" href="{% static 'styles/main_styles.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'styles/responsive.css' %}" />
     
+    {% if 'details' in  request.path %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/single_product.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/single_product_responsive.css' %}">
+    {% endif %}
   </head>
   <body>
     <div class="super_container">
@@ -63,7 +61,9 @@
       <!--  Here We But Content -->
       
       {% endblock %}
+      {% if not request.user.is_authenticated and request.user.is_anonymous %}
       {% include 'parts/newsletter.html' %}
+      {% endif %}
       {% include 'parts/footer.html' %}
 
     </div>
@@ -73,11 +73,11 @@
     <script src="{% static 'js/profile.js' %}"></script>
     {% endif %}
 
-    {% if 'checkout' in request.path %}
+    {% comment %} {% if 'payment' in request.path %}
     <script src="{% static 'js/checkout.js' %}"></script>
-    {% endif %}
+    {% endif %} {% endcomment %}
 
-    {% if 'cart' in request.path %}
+    {% if 'cart' in request.path or 'show_orders' in request.path %}
     <script src="{% static 'js/cart.js' %}"></script>
     {% endif %}
 
@@ -86,7 +86,7 @@
     {% endif %}
     
     {% comment %} {% if request.path|add:product_id == product %} {% endcomment %}
-    {% if 'single_product' in  request.path %}
+    {% if 'details' in  request.path %}
     <script src="{% static 'js/single_product.js' %}"></script>
     {% endif %}
     
@@ -105,5 +105,20 @@
     <script src="{% static 'plugins/Isotope/isotope.pkgd.min.js' %}"></script>
     <script src="{% static 'plugins/Isotope/fitcolumns.js' %}"></script>
     <script src="{% static 'js/custom.js' %}"></script>
+    <!-- Custom Scripts -->
+    <script>
+      $('#exampleModal').on('shown.bs.modal', function () {
+        $('#quantity').trigger('focus');
+        $('#quantity').trigger('select');
+      });
+
+      // to Show or hide Card Details in Checkout
+      {% comment %} $('#credit_select').click(function() {
+        $('#card_details').toggle()
+      });
+      $('#cod, #paypal, #bank').click(function() {
+        $('#card_details').hide()
+      }); {% endcomment %}
+    </script>
   </body>
 </html>

@@ -1079,7 +1079,7 @@ section
 }
 .billing
 {
-	width: 50%;
+	width: 100%;
 	padding-top: 79px;
 	padding-left: 84px;
 	padding-right: 80px;
@@ -1087,7 +1087,7 @@ section
 }
 .cart_total
 {
-	width: 50%;
+	width: 100%;
 	padding-left: 63px;
 }
 .checkout_box
@@ -1105,6 +1105,9 @@ section
 .checkout_form_container
 {
 	margin-top: 78px;
+}
+.checkout_form_container form label {
+	color: #000;
 }
 .checkout_form > div:not(:last-child)
 {

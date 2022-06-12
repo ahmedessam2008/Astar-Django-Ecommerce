@@ -1,9 +1,10 @@
-from multiprocessing import context
+from math import prod
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib import auth
 from django.contrib.auth.models import User
 from .models import UserProfile
+from products.models import Product
 import re
 
 # Create your views here.
@@ -117,28 +118,28 @@ def signup(request):
               # Add User Profile
               userprofile = UserProfile(
                 user=user,
-                adres1=adress1,
-                adres2=adress2,
+                adress1=adress1,
+                adress2=adress2,
                 country=country,
                 zipcode=zipcode,
                 mobile=mobile,
                 )
               userprofile.save()
               
-              # clear All Fields if Success
-              fname = ""
-              lname = ""
-              adress1 = ""
-              adress2 = ""
-              country = ""
-              zipcode = ""
-              mobile = ""
-              email = ""
-              gender = ""
-              age = ""
-              username = ""
-              password = ""
-              terms = None
+              # # clear All Fields if Success
+              # fname = ""
+              # lname = ""
+              # adress1 = ""
+              # adress2 = ""
+              # country = ""
+              # zipcode = ""
+              # mobile = ""
+              # email = ""
+              # gender = ""
+              # age = ""
+              # username = ""
+              # password = ""
+              # terms = None
               
               # Success Message
               messages.success(request, "User is Created")
@@ -162,7 +163,7 @@ def profile(request):
   # الجزء دا لما هيدوس علي الزرار يهبعت التعديلات
   if request.method == "POST" and "btnsignsave" in request.POST:
     
-    if request.user is not None and request.user.id != None:
+    if request.user is not None and not request.user.is_anonymous:
       userprofile = UserProfile.objects.get(user=request.user)
       if request.POST["fname"] and request.POST["lname"] and request.POST["adress1"] and request.POST["adress2"] and request.POST["country"] and request.POST["zipcode"] and request.POST["mobile"] and request.POST["gender"] and request.POST["age"] and request.POST["email"] and request.POST["username"] and request.POST["password"]:
         request.user.first_name = request.POST["fname"]
@@ -217,3 +218,36 @@ def profile(request):
       # لو اليوزر مش موجود هترجعلي الرساله اللي عملتها في صفحة البروفايل
       return redirect("profile")
     
+    
+# This Function To add Favorites to user
+def add_fav_products(request, id):
+  # add id to request علشان انا عاوز اجيب رقم المنتج
+  if request.user.is_authenticated and not request.user.is_anonymous:
+    # التحقق من المنتج موجود في المفضلة ام لا
+    prod_fav_id = Product.objects.get(id=id)
+    if UserProfile.objects.filter(user=request.user, fav_products=prod_fav_id).exists():
+      messages.error(request, "the product Exists Now")
+    else:
+    # اضافة امنتج للمفضلة لو مش موجود 
+      userprofile = UserProfile.objects.get(user=request.user)
+      userprofile.fav_products.add(prod_fav_id)
+      messages.success(request, "Product Have in Favorietes")
+    
+  else:
+    # لو مش مسجل دخول يبقي ملوش مفضلة 
+    messages.error(request, "You Must Be Login")
+  # التوجية لما تستدعيها علي صفحة المنتج الواحد
+  return redirect('/products/details/'+ str(id))
+
+
+# To render The Favorites Products
+def favorites(request):
+  context= None
+  if request.user.is_authenticated and not request.user.is_anonymous:
+    userinfo = UserProfile.objects.get(user=request.user)
+    user_fav_products = userinfo.fav_products.all()
+    context = {
+      # ليه products علشان انا عامل في صفحة برودكتس لوب علي برودكتس
+      'products': user_fav_products,
+    }
+  return render(request, 'products/products.html', context)

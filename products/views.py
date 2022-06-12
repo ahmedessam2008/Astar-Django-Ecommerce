@@ -45,18 +45,9 @@ def products(request):
 
 def single_product(request, id):
   product_id = Product.objects.get(id=id)
-  
-  # if request.method == 'POST':
-  #   product_form = ProductForm(request.POST, request.FILES, instance=product_id)
-  #   if product_form.is_valid():
-  #     product_form.save()
-  # else:
-  #   product_form = ProductForm(instance=product_id)
     
   context = {
     'product_id': product_id,
-    # 'pro_form': product_form,
-    # 'sizes': Size.objects.all(),
   }
   return render(request, 'products/single_product.html', context)
 

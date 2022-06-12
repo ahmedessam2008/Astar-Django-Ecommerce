@@ -67,9 +67,7 @@
 
   <!-- Logo -->
   <div class="sidebar_logo">
-    <a href="{% url 'index' %}"
-      ><div>a<span>star</span></div></a
-    >
+    <a href="{% url 'index' %}"><div>a<span>star</span></div></a>
   </div>
   {% if request.user.is_authenticated %}
   <span class="text-light" style="display: inline-block;width: 100%;margin: 5px 0;font-size: 20px;text-align:center;">
@@ -91,7 +89,18 @@
       {% if request.user.is_authenticated %}
       <li>
         <a href="{% url 'profile' %}">Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-        <li><a href="{% url 'logout' %}">LogOut</a></li>
+      </li>
+      <li>
+        <a href="{% url 'favorites' %}">Favorites Products<i class="fa fa-angle-right" aria-hidden="true"></i></a>
+      </li>
+      <li>
+        <a href="{% url 'cart' %}">My Cart<i class="fa fa-angle-right" aria-hidden="true"></i></a>
+      </li>
+      <li>
+        <a href="{% url 'show_orders' %}">My Orders<i class="fa fa-angle-right" aria-hidden="true"></i></a>
+      </li>
+      <li>
+        <a href="{% url 'logout' %}">LogOut<i class="fa fa-angle-right" aria-hidden="true"></i></a>
       </li>
       {% else %}
       <li>
@@ -120,10 +129,10 @@
     <div class="cart_icon">
       <a href="{% url 'cart' %}">
         <img src="{% static 'images/bag.png' %}" alt="" />
-        <div class="cart_num">2</div>
+        <div class="cart_num">{{ orderdetails.count }}</div>
       </a>
     </div>
     <div class="cart_text">bag</div>
-    <div class="cart_price">$39.99 (1)</div>
+    <div class="cart_price">${{ total }}</div>
   </div>
 </div>

@@ -5,10 +5,10 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class UserProfile(models.Model):
-  gender = (
+  gender = [
     ('male', 'male'),
     ('female', 'female'),
-    )
+    ]
   user = models.OneToOneField(User, on_delete=models.CASCADE)
   fav_products = models.ManyToManyField(Product)
   adress1 = models.CharField(max_length=50, null=True, blank=True)
