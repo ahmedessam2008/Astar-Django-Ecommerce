@@ -77,10 +77,10 @@ WSGI_APPLICATION = 'astarproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'astardb',
-        'USER': 'postgres',
-        'PASSWORD': 'mazyazahmed',
-        'HOST': 'localhost',
+        'NAME': 'df0616god580jp',
+        'USER': 'atzbhqjjeqtmmj',
+        'PASSWORD': '5d76e798a7e019d3d81dd5fce30bbc8a4a047456492c018e40ae87ec7b8fa480',
+        'HOST': 'ec2-44-206-197-71.compute-1.amazonaws.com',
         'PORT': '5432',
     }
 }
