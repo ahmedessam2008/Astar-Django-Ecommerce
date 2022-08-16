@@ -1,4 +1,3 @@
-from math import prod
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib import auth
@@ -162,10 +161,11 @@ def profile(request):
   
   # الجزء دا لما هيدوس علي الزرار يهبعت التعديلات
   if request.method == "POST" and "btnsignsave" in request.POST:
-    
     if request.user is not None and not request.user.is_anonymous:
+      
       userprofile = UserProfile.objects.get(user=request.user)
       if request.POST["fname"] and request.POST["lname"] and request.POST["adress1"] and request.POST["adress2"] and request.POST["country"] and request.POST["zipcode"] and request.POST["mobile"] and request.POST["gender"] and request.POST["age"] and request.POST["email"] and request.POST["username"] and request.POST["password"]:
+        
         request.user.first_name = request.POST["fname"]
         request.user.last_name = request.POST["lname"]
         userprofile.adress1 = request.POST["adress1"]
