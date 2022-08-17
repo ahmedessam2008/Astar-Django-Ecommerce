@@ -1,1 +1,1 @@
-web:gunicorn astarproject.wsgi --log-file –
+web: gunicorn astarproject.wsgi --log-file –
