@@ -16,7 +16,7 @@ SECRET_KEY = 'django-insecure-a*^dywb57-clem0a^(n42@rjr#^0@17!80l!shdfbgo%c)f(%$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['astar-ecommerce.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1:8000','astar-ecommerce.herokuapp.com']
 
 
 # Application definition
@@ -32,7 +32,7 @@ INSTALLED_APPS = [
     'ecommerce.apps.EcommerceConfig',
     'accounts.apps.AccountsConfig',
     'products.apps.ProductsConfig',
-    'django_countries',
+    # 'django_countries',
     'orders.apps.OrdersConfig'
 ]
 

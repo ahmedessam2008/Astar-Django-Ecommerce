@@ -3,7 +3,7 @@
 from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
-import django_countries.fields
+# import django_countries.fields
 
 
 class Migration(migrations.Migration):
@@ -55,7 +55,7 @@ class Migration(migrations.Migration):
                 ('adress', models.CharField(max_length=200, null=True)),
                 ('adress2', models.CharField(max_length=200, null=True)),
                 ('zipcode', models.CharField(max_length=200, null=True)),
-                ('country', django_countries.fields.CountryField(max_length=2)),
+                # ('country', django_countries.fields.CountryField(max_length=2)),
                 ('email', models.EmailField(blank=True, max_length=50, null=True)),
                 ('terms_conditions', models.BooleanField(default=False, null=True)),
                 ('save_information', models.BooleanField(default=False, null=True)),
